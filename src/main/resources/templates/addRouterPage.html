@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title>Add Student</title>
+            <meta charset="UTF-8"/>
+     
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       
+      <!-- See configuration in WebMvConfig.java -->
+      <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+                rel="stylesheet" media="screen"/>
+                 
+        
+      <script th:src="@{/jquery/jquery.min.js}"></script>  
+      <script th:src="@{/popper/popper.min.js}"></script>  
+      <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>   
+          
+   </head>
+   
+   <body>      
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>
+       
+      <h2>Add Router</h2>
+
+       
+   <!--    <div th:if="${errorMessage!=null}"
+           style="color:red;font-style:italic" th:utext="${errorMessage}">..</div> -->
+       
+      <form th:action="@{/addRouter}" th:object="${addRouterForm}" method="POST">
+     
+	<div class="form-group">
+		<div class="form-group">
+			<label>Type of router</label>
+			<select th:field="${addRouterForm.typeOfRouterID}" class="form-control">
+				<option th:each="elem : ${ListTypesOfRouters}"
+						th:value="${elem.typeOfRouterID}"
+						th:utext="${elem.description}">
+				</option>
+			</select>
+		</div>
+			<label>Max Speed</label>
+			 <input type="text"	class="form-control"  placeholder="Enter max speed" th:field="*{maxSpeed}" />
+		</div>
+		  <div class="form-group">
+		  <label>Wifi Frequency</label>
+		  <input type="text"	class="form-control"  placeholder="Enter wifi Frequency" th:field="*{wifiFrequency}" />
+		  </div>
+		  <div class="form-group">
+		  <label>Number Of Antennas</label>
+		  <input type="text"	class="form-control"  placeholder="Enter number Of Antennas" th:field="*{numberOfAntennas}" />
+		  </div>
+		  <div class="form-group">
+			  <label>Color</label>
+			  <input type="text"	class="form-control"  placeholder="Enter color" th:field="*{color}" />
+		  </div>
+		  <div class="form-group">
+			  <label>Weight</label>
+			  <input type="text"	class="form-control"  placeholder="Enter weight" th:field="*{weight}" />
+		  </div>
+		  <div class="form-group">
+			  <label>Power</label>
+			  <input type="text"	class="form-control"  placeholder="Enter power" th:field="*{power}" />
+		  </div>
+		  <div class="form-group">
+			  <label>Protection</label>
+			  <select th:field="${addRouterForm.protection}" class="form-control">
+				  <option th:each="elem : ${ListProtection}"
+						  th:value="${elem}"
+						  th:utext="${elem.name()}">
+				  </option>
+			  </select>
+		  </div>
+
+		  <div class="form-group">
+			  <label>Brand</label>
+			  <input type="text"	class="form-control"  placeholder="Enter brand" th:field="*{brand}" />
+		  </div>
+		  <div class="form-group">
+			  <label>Price</label>
+			  <input type="text"	class="form-control"  placeholder="Enter price" th:field="*{price}" />
+		  </div>
+
+              <td><input type="submit"  class="btn btn-success "  value="Add"/></td>
+           </tr>      
+         </table>      
+      </form>
+       
+   </body>
+</html>

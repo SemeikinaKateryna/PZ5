@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Routers</title>
+
+      <meta charset="UTF-8"/>
+    
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       
+      <!-- See configuration in WebMvConfig.java -->
+      <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+                rel="stylesheet" media="screen"/>
+                 
+        
+      <script th:src="@{/jquery/jquery.min.js}"></script>  
+      <script th:src="@{/popper/popper.min.js}"></script>  
+      <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>   
+          
+ 
+<!-- <style>
+th, td {
+    padding: 5px;
+}
+</style> -->
+ 
+</head>
+ 
+<body>
+    <!-- Include _menu.html -->
+    <th:block th:include="/_menu"></th:block>
+
+ <div class="container">
+    <h2>Routers</h2>
+
+    <table  class="table table-striped table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Type Of Router</th>
+            <th>Max Speed</th>
+            <th>Wifi Frequency</th>
+             <th>Number Of Antennas</th>
+              <th>Color</th>
+               <th>Weight</th>
+               <th>Power</th>
+               <th>Protection</th>
+               <th>Brand</th>
+               <th>Price</th>
+        </tr>
+        <tr th:each="routerInfo : ${allRouters}">
+            <td th:utext="${routerInfo.RouterID}">..</td>
+            <td th:utext="${routerInfo.typeOfRouter}">..</td>
+            <td th:utext="${routerInfo.maxSpeed}">..</td>
+            <td th:utext="${routerInfo.wifiFrequency}">..</td>
+            <td th:utext="${routerInfo.numberOfAntennas}">..</td>
+            <td th:utext="${routerInfo.color}">..</td>
+            <td th:utext="${routerInfo.weight}">..</td>
+            <td th:utext="${routerInfo.power}">..</td>
+            <td th:utext="${routerInfo.protection}">..</td>
+            <td th:utext="${routerInfo.brand}">..</td>
+            <td th:utext="${routerInfo.price}">..</td>
+        </tr>
+ 
+    </table>
+    </div>
+</body>
+</html>
