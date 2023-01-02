@@ -4,7 +4,7 @@ import ua.nure.st.kpp.example.demo.entity.Protection;
 import ua.nure.st.kpp.example.demo.entity.Router;
 import ua.nure.st.kpp.example.demo.myList.MyList;
 import ua.nure.st.kpp.example.demo.pz4.Buy;
-import ua.nure.st.kpp.example.demo.pz4.Customer;
+import ua.nure.st.kpp.example.demo.entity.Customer;
 import ua.nure.st.kpp.example.demo.pz4.TypesOfRouters;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,6 +53,8 @@ public class MySQLDAO implements IMyDAO {
     public static String SELECT_ROUTERS_BY_PROTECTION = "SELECT * FROM " + NAME_OF_TABLE_ROUTERS + " WHERE protection = ?";
     public static String SELECT_ROUTERS_BY_BRAND = "SELECT * FROM " + NAME_OF_TABLE_ROUTERS + " WHERE brand = ?";
     public static String SELECT_ROUTERS_BY_PRICE = "SELECT * FROM " + NAME_OF_TABLE_ROUTERS + " WHERE price = ?";
+
+    public static String SELECT_CUSTOMERS_BY_SURNAME = "SELECT * FROM " + NAME_OF_TABLE_CUSTOMERS + " WHERE surname = ?";
 
     // Для додавання об'єкту
     public static String INSERT_DATA_INTO_ROUTER = "INSERT INTO " + NAME_OF_TABLE_ROUTERS +
@@ -166,23 +168,6 @@ public class MySQLDAO implements IMyDAO {
         }
         return types;
     }
-
-    // Виведення всіх роутерів разом з розшифровкою типу
-    /*@Override
-    public void showAllRouters() throws SQLException {
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(GET_ALL_ROUTERS);
-        while (rs.next()) {
-            System.out.println(rs.getInt("RouterID") + " " + rs.getString("description")
-                    + " " + rs.getInt("maxSpeed") + " " + rs.getDouble("wifiFrequency")
-                    + " " + rs.getInt("numberOfAntennas") + " " + rs.getString("color")
-                    + " " + rs.getInt("weight") + " " + rs.getInt("power") + " " +
-                    rs.getString("protection") + " " + rs.getString("brand")
-                            + " "+ rs.getDouble("price"));
-        }
-        rs.close();
-        st.close();
-    }*/
 
     // Отримання даних з таблиць Router за його будь-якою характеристикою
     @Override
@@ -374,6 +359,29 @@ public class MySQLDAO implements IMyDAO {
         ps.close();
     }*/
 
+    @Override
+    public Customer getCustomersBySurname(String surname){
+        Customer customer = null;
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            PreparedStatement ps = conn.prepareStatement(SELECT_CUSTOMERS_BY_SURNAME);
+            ps.setString(1, surname);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                customer = new Customer();
+                customer.setCustomerID(rs.getInt("customerID"));
+                customer.setSurname(rs.getString("surname"));
+                customer.setName(rs.getString("name"));
+                customer.setPhoneNumber(rs.getString("phoneNumber"));
+                customer.setDeliveryAdress(rs.getString("deliveryAdress"));
+                customer.setEmail(rs.getString("email"));
+            }
+            rs.close();
+            ps.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
     // Додавання нового роутера, його типу, покупця, покупки
     @Override
     public void addRouter(int RouterID, int typeOfRouterID, int maxSpeed, double wifiFrequency, int numberOfAntennas,
@@ -398,22 +406,26 @@ public class MySQLDAO implements IMyDAO {
             e.printStackTrace();
         }
     }
-    /*
+
     @Override
     public void addCustomer(int customerID, String surname, String name, String patronymic,
-                            String phoneNumber, String deliveryAdress, String email) throws SQLException{
-        PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_CUSTOMER);
-        ps.setInt(1, customerID);
-        ps.setString(2, surname);
-        ps.setString(3, name);
-        ps.setString(4, patronymic);
-        ps.setString(5, phoneNumber);
-        ps.setString(6, deliveryAdress);
-        ps.setString(7, email);
-        ps.executeUpdate();
-        ps.close();
+                            String phoneNumber, String deliveryAdress, String email){
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_CUSTOMER);
+            ps.setInt(1, customerID);
+            ps.setString(2, surname);
+            ps.setString(3, name);
+            ps.setString(4, patronymic);
+            ps.setString(5, phoneNumber);
+            ps.setString(6, deliveryAdress);
+            ps.setString(7, email);
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    @Override
+    /*@Override
     public void addBuy(int buyID, Date dateOfBuy, int customerID, int fullPrice, String currency,
                         int RouterID) throws SQLException{
         PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_BUY);
@@ -436,13 +448,18 @@ public class MySQLDAO implements IMyDAO {
     }*/
 
     //Зміна записів
-   /* @Override
+   /*
+    @Override
     public void changePriceRouter(int newPrice, int RouterID) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(UPDATE_PRICE_ROUTER);
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)){
+            PreparedStatement ps = conn.prepareStatement(UPDATE_PRICE_ROUTER);
         ps.setInt(1,newPrice );
         ps.setInt(2,RouterID);
         ps.executeUpdate();
         ps.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void changePhoneNumberCustomer(String newPhoneNumber, String surname) throws SQLException {
@@ -461,7 +478,6 @@ public class MySQLDAO implements IMyDAO {
         ps.close();
     }*/
 
-
     // Видалення роутера, типу роутера, покупця, покупки по ID
     @Override
     public void deleteRouterById(int RouterID) {
@@ -474,13 +490,11 @@ public class MySQLDAO implements IMyDAO {
             e.printStackTrace();
         }
     }
-
     @Override
-    public void changePriceRouter(int newPrice, int RouterID) throws SQLException {
+    public void deleteCustomerById(int customerID){
         try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)){
-            PreparedStatement ps = conn.prepareStatement(UPDATE_PRICE_ROUTER);
-        ps.setInt(1,newPrice );
-        ps.setInt(2,RouterID);
+        PreparedStatement ps = conn.prepareStatement(DELETE_DATA_FROM_CUSTOMER_BY_ID);
+        ps.setInt(1, customerID);
         ps.executeUpdate();
         ps.close();
         }catch (SQLException e) {
@@ -488,13 +502,6 @@ public class MySQLDAO implements IMyDAO {
         }
     }
     /*@Override
-    public void deleteCustomerById(int customerID) throws SQLException{
-        PreparedStatement ps = conn.prepareStatement(DELETE_DATA_FROM_CUSTOMER_BY_ID);
-        ps.setInt(1, customerID);
-        ps.executeUpdate();
-        ps.close();
-    }
-    @Override
     public void deleteBuyById(int buyID) throws SQLException {
         PreparedStatement ps = conn.prepareStatement(DELETE_DATA_FROM_BUY_BY_ID);
         ps.setInt(1, buyID);

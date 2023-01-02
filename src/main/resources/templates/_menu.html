@@ -1,7 +1,7 @@
 <div xmlns:th="http://www.thymeleaf.org"
      style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
  
-  <a th:href="@{/}">Routers</a>
+  <a th:href="@{/}">Router's Shop</a>
  
      | &nbsp;
  
@@ -12,7 +12,15 @@
        <a th:href="@{/deleteRoutersByID}">Delete Routers by ID</a>
           | &nbsp;  
          <a th:href="@{/routersByID}">Routers by ID</a>
-            | &nbsp;  
-   
- 
+            | &nbsp;
+
+    <a th:href="@{/customers}">All Customers</a>
+    | &nbsp;
+    <a th:href="@{/addCustomer}">Add Customer</a>
+    | &nbsp;
+    <a th:href="@{/deleteCustomersByID}">Delete Customers by ID</a>
+    | &nbsp;
+    <a th:href="@{/customersBySurname}">Customers by surname</a>
+    | &nbsp;
+
 </div>

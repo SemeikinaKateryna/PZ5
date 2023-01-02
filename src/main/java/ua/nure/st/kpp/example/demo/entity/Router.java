@@ -1,7 +1,5 @@
 package ua.nure.st.kpp.example.demo.entity;
 
-import ua.nure.st.kpp.example.demo.entity.Protection;
-
 public class Router {
     int RouterID;
     String typeOfRouter;
