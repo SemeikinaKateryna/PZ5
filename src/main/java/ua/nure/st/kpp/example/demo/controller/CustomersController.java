@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ua.nure.st.kpp.example.demo.entity.Customer;
-import ua.nure.st.kpp.example.demo.form.AddRouterForm;
 import ua.nure.st.kpp.example.demo.form.DeleteCustomerForm;
 import ua.nure.st.kpp.example.demo.form.AddCustomerForm;
 import ua.nure.st.kpp.example.demo.form.GetCustomerBySurnameForm;
 import ua.nure.st.kpp.example.demo.myList.MyList;
-import ua.nure.st.kpp.example.demo.pz4.DAO.IMyDAO;
-import ua.nure.st.kpp.example.demo.pz4.DAO.DAOFactory;
-import ua.nure.st.kpp.example.demo.pz4.DAO.TypeDAO;
+import ua.nure.st.kpp.example.demo.DAO.IMyDAO;
+import ua.nure.st.kpp.example.demo.DAO.DAOFactory;
+import ua.nure.st.kpp.example.demo.DAO.TypeDAO;
 
 @Controller
 public class CustomersController {
@@ -40,7 +39,8 @@ public class CustomersController {
     }
 
     @RequestMapping(value = {"/addCustomer"}, method = RequestMethod.POST)
-    public String addCustomer(Model model, @ModelAttribute("addCustomerForm") AddCustomerForm addCustomerForm) {
+    public String addCustomer(Model model, @ModelAttribute("addCustomerForm")
+    AddCustomerForm addCustomerForm) {
         dao.addCustomer(addCustomerForm.getCustomerID(),addCustomerForm.getSurname(),
                 addCustomerForm.getName(),addCustomerForm.getPatronymic(),
                 addCustomerForm.getPhoneNumber(),addCustomerForm.getDeliveryAdress(),
@@ -56,7 +56,8 @@ public class CustomersController {
     }
 
     @RequestMapping(value = {"/deleteCustomersByID"}, method = RequestMethod.POST)
-    public String deleteCustomer(Model model, @ModelAttribute("deleteCustomerForm") DeleteCustomerForm deleteCustomerForm) {
+    public String deleteCustomer(Model model, @ModelAttribute("deleteCustomerForm")
+    DeleteCustomerForm deleteCustomerForm) {
         dao.deleteCustomerById((deleteCustomerForm.getId()));
         return "redirect:/customers";
     }

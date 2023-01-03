@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
    <head>
-      <title>Add Customer</title>
+      <title>Add Buy</title>
             <meta charset="UTF-8"/>
      
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -21,39 +21,38 @@
       <!-- Include _menu.html -->
       <th:block th:include="/_menu"></th:block>
        
-      <h2>Add Customer</h2>
+      <h2>Add Buy</h2>
 
        
    <!--    <div th:if="${errorMessage!=null}"
            style="color:red;font-style:italic" th:utext="${errorMessage}">..</div> -->
        
-      <!--/*@thymesVar id="addCustomerForm" type=""*/-->
-      <form th:action="@{/addCustomer}" th:object="${addCustomerForm}" method="POST">
-		<div class="form-group">
-		<label>Surname</label>
-			 <input type="text"	class="form-control"  placeholder="Enter surname" th:field="*{surname}" />
-		</div>
+      <form th:action="@{/addBuy}" th:object="${addBuyForm}" method="POST">
 		  <div class="form-group">
-		  <label>Name</label>
-		  <input type="text"	class="form-control"  placeholder="Enter name" th:field="*{name}" />
+		  <label>Date Of Buy</label>
+		  <input type="date"	class="form-control"  placeholder="Enter date of buy"
+				 th:field="*{dateOfBuy}"/>
 		  </div>
 		  <div class="form-group">
-			  <label>Patronymic</label>
-			  <input type="text"	class="form-control"  placeholder="Enter patronymic" th:field="*{patronymic}" />
+			  <label>Customer ID</label>
+			  <input type="text"	class="form-control"  placeholder="Enter customer ID"
+					 th:field="*{customerID}" />
 		  </div>
 		  <div class="form-group">
-			  <label>Phone number</label>
-			  <input type="text"	class="form-control"  placeholder="Enter phone number" th:field="*{phoneNumber}" />
+			  <label>Full price</label>
+			  <input type="text"	class="form-control"  placeholder="Enter full price"
+					 th:field="*{fullPrice}" />
 		  </div>
 		  <div class="form-group">
-			  <label>Delivery adress</label>
-			  <input type="text"	class="form-control"  placeholder="Enter delivery adress" th:field="*{deliveryAdress}" />
+			  <label>Currency</label>
+			  <input type="text"	class="form-control"  placeholder="Enter currency"
+					 th:field="*{currency}" />
 		  </div>
 		  <div class="form-group">
-			  <label>Email</label>
-			  <input type="text"	class="form-control"  placeholder="Enter email" th:field="*{email}" />
+			  <label>Router ID</label>
+			  <input type="text"	class="form-control"  placeholder="Enter Router ID"
+					 th:field="*{routerID}" />
 		  </div>
-
               <td><input type="submit"  class="btn btn-success "  value="Add"/></td>
            </tr>      
          </table>      

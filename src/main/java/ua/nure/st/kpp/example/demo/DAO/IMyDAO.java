@@ -1,12 +1,10 @@
-package ua.nure.st.kpp.example.demo.pz4.DAO;
+package ua.nure.st.kpp.example.demo.DAO;
 
-import ua.nure.st.kpp.example.demo.entity.Protection;
-import ua.nure.st.kpp.example.demo.entity.Router;
+import ua.nure.st.kpp.example.demo.entity.*;
 import ua.nure.st.kpp.example.demo.myList.MyList;
-import ua.nure.st.kpp.example.demo.entity.Customer;
-import ua.nure.st.kpp.example.demo.pz4.TypesOfRouters;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 public interface IMyDAO {
     String NAME_OF_TABLE_ROUTERS = "router";
@@ -14,13 +12,11 @@ public interface IMyDAO {
     String NAME_OF_TABLE_CUSTOMERS = "customer";
     String NAME_OF_TABLE_BUY = "buy";
 
-
     // Просмотр информации из всех таблиц
-    MyList getAllRouters() throws SQLException;
-    MyList getAllCustomers() throws SQLException;
-    MyList getAllBuy() throws SQLException;
+    MyList<Router> getAllRouters();
+    MyList<Customer> getAllCustomers();
+    MyList<Buy> getAllBuy();
     MyList <TypesOfRouters> getAllTypesOfRouters() ;
-
 
     // Поиск роутеров по каждой из своих характеристик
     Router getRoutersById(int id);
@@ -34,15 +30,18 @@ public interface IMyDAO {
     void getRoutersByProtection(Protection protection) throws SQLException;
     void getRoutersByBrand(String brand) throws SQLException;
     void getRoutersByPrice(double price) throws SQLException;*/
+    // Поиск покупателя по фамилии
     Customer getCustomersBySurname(String surname);
+    //Поиск покупки по ID товара
+    Buy getBuyByRouterID(int id);
     // Добавление нового роутера, его типа, покупателя, покупки
     void addRouter (int RouterID, int type, int maxSpeed, double wifiFrequency, int numberOfAntennas, String color,
                     int weight, int power, Protection protection, String brand, double price);
     void addCustomer(int customerID, String surname, String name, String patronymic, String phoneNumber,
                      String deliveryAdress, String email);
-    /*void addBuy (int buyID, Date dateOfBuy, int customerID, int fullPrice, String currency, int RouterID)
-            throws SQLException;
-    void addTypeOfRouter(int typeOfRouterID, String description) throws SQLException;*/
+    void addBuy (int buyID, String dateOfBuy, int customerID, int fullPrice,
+                 String currency, int RouterID);
+    //void addTypeOfRouter(int typeOfRouterID, String description) throws SQLException;
 
     // Изменение стоимости роутера по заданному ID
     //void changePriceRouter(int newPrice, int RouterID) throws SQLException;
@@ -53,7 +52,7 @@ public interface IMyDAO {
         // Удаление роутера/покупателя/покупки по заданному ID
     void deleteRouterById(int RouterID);
     void deleteCustomerById(int customerID);
-    /*void deleteBuyById(int buyID) throws SQLException;
-    void deleteTypeOfRouterById(int typeOfRouterID) throws SQLException;*/
+    void deleteBuyById(int buyID) throws SQLException;
+    /*void deleteTypeOfRouterById(int typeOfRouterID) throws SQLException;*/
 }
 

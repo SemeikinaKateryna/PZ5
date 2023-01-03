@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
    <head>
-      <title>Get Customer</title>
+      <title>Get Buy</title>
          
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
        
@@ -17,14 +17,15 @@
    </head>
    
    <body>      
+      <!-- Include _menu.html -->
       <th:block th:include="/_menu"></th:block>
        
-      <h2>Show Customer</h2>
-       
-      <form th:action="@{/customersBySurname}" th:object="${getCustomerBySurnameForm}" method="POST">
+      <h2>Show Buy</h2>
+
+      <form th:action="@{/buyByRouterID}" th:object="${getBuyByRouterIDForm}" method="POST">
 		<div class="form-group">
-			<label>Surname:</label>
-			 <input type="text"	class="form-control" placeholder="Enter surname" th:field="*{surname}" />
+			<label>router ID:</label>
+			 <input type="text"	class="form-control"  placeholder="Enter ID" th:field="*{id}" />
 		</div>
 
       <input type="submit" class="btn btn-success" value="Show"/>

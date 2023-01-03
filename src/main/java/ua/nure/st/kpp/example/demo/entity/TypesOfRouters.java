@@ -1,4 +1,4 @@
-package ua.nure.st.kpp.example.demo.pz4;
+package ua.nure.st.kpp.example.demo.entity;
 
 public class TypesOfRouters {
     int typeOfRouterID;

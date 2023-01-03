@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
    <head>
-      <title>Get Customer</title>
-         
+      <title>Delete Buy</title>
+            <meta charset="UTF-8"/>
+   
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
        
       <!-- See configuration in WebMvConfig.java -->
@@ -19,16 +20,16 @@
    <body>      
       <th:block th:include="/_menu"></th:block>
        
-      <h2>Show Customer</h2>
+      <h2>Delete Customer</h2>
        
-      <form th:action="@{/customersBySurname}" th:object="${getCustomerBySurnameForm}" method="POST">
-		<div class="form-group">
-			<label>Surname:</label>
-			 <input type="text"	class="form-control" placeholder="Enter surname" th:field="*{surname}" />
+      <form th:action="@{/deleteBuyByID}" th:object="${deleteBuyForm}" method="POST">
+        <div class="form-group">
+			<label>ID:</label>
+			 <input type="text"	class="form-control"  placeholder="Enter ID" th:field="*{id}" />
 		</div>
 
-      <input type="submit" class="btn btn-success" value="Show"/>
-     
+           <input type="submit"  class="btn btn-success"  value="Delete"/></td>
+    
       </form>
        
    </body>

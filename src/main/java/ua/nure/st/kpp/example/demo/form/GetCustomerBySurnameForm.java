@@ -6,7 +6,7 @@ public class GetCustomerBySurnameForm {
         return surname;
     }
 
-    public void setId(String surname) {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 

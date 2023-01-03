@@ -1,14 +1,15 @@
-package ua.nure.st.kpp.example.demo.pz4.DAO;
+package ua.nure.st.kpp.example.demo.DAO;
 
 import ua.nure.st.kpp.example.demo.entity.Protection;
 import ua.nure.st.kpp.example.demo.entity.Router;
 import ua.nure.st.kpp.example.demo.myList.MyList;
-import ua.nure.st.kpp.example.demo.pz4.Buy;
+import ua.nure.st.kpp.example.demo.entity.Buy;
 import ua.nure.st.kpp.example.demo.entity.Customer;
-import ua.nure.st.kpp.example.demo.pz4.TypesOfRouters;
+import ua.nure.st.kpp.example.demo.entity.TypesOfRouters;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.Date;
 
 public class MySQLDAO implements IMyDAO {
     //посилання на БД, що знаходиться на локальному сервері, логін та пароль від MySQL WorkBench
@@ -55,6 +56,8 @@ public class MySQLDAO implements IMyDAO {
     public static String SELECT_ROUTERS_BY_PRICE = "SELECT * FROM " + NAME_OF_TABLE_ROUTERS + " WHERE price = ?";
 
     public static String SELECT_CUSTOMERS_BY_SURNAME = "SELECT * FROM " + NAME_OF_TABLE_CUSTOMERS + " WHERE surname = ?";
+    public static String SELECT_BUY_BY_ROUTER_ID = "SELECT * FROM " + NAME_OF_TABLE_BUY + " WHERE RouterID = ?";
+
 
     // Для додавання об'єкту
     public static String INSERT_DATA_INTO_ROUTER = "INSERT INTO " + NAME_OF_TABLE_ROUTERS +
@@ -133,13 +136,13 @@ public class MySQLDAO implements IMyDAO {
     }
 
     @Override
-    public MyList getAllBuy() throws SQLException {
+    public MyList getAllBuy(){
         MyList<Buy> buy = new MyList<>();
         try (Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(GET_ALL_BUY);
             while (rs.next()) {
-                buy.addLast(new Buy(rs.getInt("buyID"), rs.getDate("dateOfBuy"),
+                buy.addLast(new Buy(rs.getInt("buyID"), rs.getString("dateOfBuy"),
                         rs.getInt("customerID"), rs.getInt("fullPrice"),
                         rs.getString("currency"), rs.getInt("RouterID")));
             }
@@ -371,6 +374,7 @@ public class MySQLDAO implements IMyDAO {
                 customer.setCustomerID(rs.getInt("customerID"));
                 customer.setSurname(rs.getString("surname"));
                 customer.setName(rs.getString("name"));
+                customer.setPatronymic(rs.getString("patronymic"));
                 customer.setPhoneNumber(rs.getString("phoneNumber"));
                 customer.setDeliveryAdress(rs.getString("deliveryAdress"));
                 customer.setEmail(rs.getString("email"));
@@ -382,6 +386,29 @@ public class MySQLDAO implements IMyDAO {
         }
         return customer;
     }
+    public Buy getBuyByRouterID(int id){
+        Buy buy = null;
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            PreparedStatement ps = conn.prepareStatement(SELECT_BUY_BY_ROUTER_ID);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                buy = new Buy();
+                buy.setBuyID(rs.getInt("buyID"));
+                buy.setDateOfBuy(rs.getString("dateOfBuy"));
+                buy.setCustomerID(rs.getInt("customerID"));
+                buy.setFullPrice(rs.getInt("fullPrice"));
+                buy.setCurrency(rs.getString("currency"));
+                buy.setRouterID(rs.getInt("RouterID"));
+            }
+            rs.close();
+            ps.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return buy;
+    }
+
     // Додавання нового роутера, його типу, покупця, покупки
     @Override
     public void addRouter(int RouterID, int typeOfRouterID, int maxSpeed, double wifiFrequency, int numberOfAntennas,
@@ -425,20 +452,24 @@ public class MySQLDAO implements IMyDAO {
             e.printStackTrace();
         }
     }
-    /*@Override
-    public void addBuy(int buyID, Date dateOfBuy, int customerID, int fullPrice, String currency,
-                        int RouterID) throws SQLException{
-        PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_BUY);
+    @Override
+    public void addBuy (int buyID, String dateOfBuy, int customerID, int fullPrice,
+                        String currency, int RouterID){
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_BUY);
         ps.setInt(1, buyID);
-        ps.setDate(2, (java.sql.Date) dateOfBuy);
+        ps.setString(2, dateOfBuy);
         ps.setInt(3, customerID);
         ps.setInt(4, fullPrice);
         ps.setString(5, currency);
         ps.setInt(6, RouterID);
         ps.executeUpdate();
         ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    @Override
+    /*@Override
     public void addTypeOfRouter(int typeOfRouterID, String description) throws SQLException{
         PreparedStatement ps = conn.prepareStatement(INSERT_DATA_INTO_TYPES_OF_ROUTER);
         ps.setInt(1, typeOfRouterID);
@@ -501,14 +532,17 @@ public class MySQLDAO implements IMyDAO {
             e.printStackTrace();
         }
     }
-    /*@Override
-    public void deleteBuyById(int buyID) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(DELETE_DATA_FROM_BUY_BY_ID);
-        ps.setInt(1, buyID);
-        ps.executeUpdate();
-        ps.close();
-    }*/
-
+    @Override
+    public void deleteBuyById(int buyID){
+        try(Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            PreparedStatement ps = conn.prepareStatement(DELETE_DATA_FROM_BUY_BY_ID);
+            ps.setInt(1, buyID);
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //перевторення рядку, який зчитує поле 'protection' з БД на об'єкт enum типу Protection
     public static Protection getEnum(String str) {

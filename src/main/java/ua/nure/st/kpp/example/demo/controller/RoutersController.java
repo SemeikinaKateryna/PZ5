@@ -15,9 +15,9 @@ import ua.nure.st.kpp.example.demo.form.AddRouterForm;
 import ua.nure.st.kpp.example.demo.entity.Protection;
 import ua.nure.st.kpp.example.demo.entity.Router;
 import ua.nure.st.kpp.example.demo.myList.MyList;
-import ua.nure.st.kpp.example.demo.pz4.DAO.IMyDAO;
-import ua.nure.st.kpp.example.demo.pz4.DAO.DAOFactory;
-import ua.nure.st.kpp.example.demo.pz4.DAO.TypeDAO;
+import ua.nure.st.kpp.example.demo.DAO.IMyDAO;
+import ua.nure.st.kpp.example.demo.DAO.DAOFactory;
+import ua.nure.st.kpp.example.demo.DAO.TypeDAO;
 
 @Controller
 public class RoutersController {
@@ -26,8 +26,8 @@ public class RoutersController {
     public RoutersController() throws SQLException {
     }
 
-    @RequestMapping(value = { "/routers"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String showAllRouters(Model model) throws SQLException {
+    @RequestMapping(value = {"/", "/routers"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String showAllRouters(Model model){
         MyList<Router> list = dao.getAllRouters();
         model.addAttribute("allRouters", list);
         return "routersPage";

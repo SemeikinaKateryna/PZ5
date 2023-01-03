@@ -1,4 +1,4 @@
-package ua.nure.st.kpp.example.demo.pz4.DAO;
+package ua.nure.st.kpp.example.demo.DAO;
 
 import java.sql.SQLException;
 
