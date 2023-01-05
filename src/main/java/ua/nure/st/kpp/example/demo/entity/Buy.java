@@ -1,5 +1,4 @@
 package ua.nure.st.kpp.example.demo.entity;
-import java.util.Date;
 
 public class Buy {
     int buyID;
