@@ -25,7 +25,7 @@ public class CustomersController {
     }
 
     @RequestMapping(value = { "/customers"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String showAllCustomers(Model model) throws SQLException {
+    public String showAllCustomers(Model model){
         MyList<Customer> list = dao.getAllCustomers();
         model.addAttribute("allCustomers", list);
         return "customersPage";

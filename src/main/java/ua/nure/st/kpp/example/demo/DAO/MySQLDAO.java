@@ -17,7 +17,7 @@ public class MySQLDAO implements IMyDAO {
     private static final String PASSWORD = "Katya";
 
 
-    //конструктор MySQLDAO, що створює зв'язок з БД
+    //конструктор MySQLDAO, що створює зв'язок з драйвером
     public MySQLDAO(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();

@@ -22,14 +22,6 @@
       <th:block th:include="/_menu"></th:block>
        
       <h2>Delete Router</h2>
-<!--       <ul>
-         <li>1 - Tom</li>
-         <li>2 - Jerry</li>
-         <li>3 - Donald</li>
-      </ul> -->
-       
-   <!--    <div th:if="${errorMessage!=null}"
-           style="color:red;font-style:italic" th:utext="${errorMessage}">..</div> -->
        
       <form th:action="@{/deleteRoutersByID}" th:object="${deleteRouterForm}" method="POST">
         <div class="form-group">
